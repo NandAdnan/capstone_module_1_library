@@ -16,17 +16,17 @@ def buat_akun():
     username = input("Masukkan nama pengguna: ").strip()
 
     if username == "":
-        print("Nama pengguna tidak boleh kosong. Silakan coba lagi.")
+        print("\nNama pengguna tidak boleh kosong. Silakan coba lagi.")
         return
     
     if username in user:
-        print("Nama pengguna sudah ada. Silakan coba lagi.")
+        print("\nNama pengguna sudah ada. Silakan coba lagi.")
         return
     
     password = input("Masukkan kata sandi: ").strip()
 
     if password == "":
-        print("Kata sandi tidak boleh kosong. Silakan coba lagi.")
+        print("\nKata sandi tidak boleh kosong. Silakan coba lagi.")
         return
 
     user[username] = {'password': password, 'role': 'user'}
@@ -40,7 +40,7 @@ def login():
     password = input("Masukkan kata sandi: ").strip()
     
     if username in user and user[username]['password'] == password:
-        print("\nMasuk berhasil!")
+        print("\nBerhasil Login!")
         return username
     
     else:
@@ -48,7 +48,7 @@ def login():
         return None
 
 def tambah_buku():
-    while (True):
+    while True:
         print("\n=== Tambah Buku ===")
         jenis_buku = input("Masukkan jenis buku (Novel/Komik): ").strip().lower()
 
@@ -99,7 +99,7 @@ def tambah_buku():
             break
 
 def hapus_buku():
-    while (True):
+    while True:
         print("\n=== Hapus Buku ===")
         daftar_buku()
 
@@ -122,7 +122,7 @@ def hapus_buku():
             break
 
 def perbarui_buku():
-    while (True):
+    while True:
         print("\n=== Perbarui Buku ===")
         daftar_buku()
 
@@ -163,8 +163,14 @@ def perbarui_buku():
                 print("Jumlah stok harus berupa angka. Silakan coba lagi.")
                 continue
 
-            buku[indeks] = {'kode': buku[indeks]['kode'], 'judul': judul, 'penulis': penulis, 'penerbit': penerbit, 'tahun': tahun, 'stok': stok, 'jenis': buku[indeks]['jenis']}
-            print("Buku berhasil diperbarui!")
+            jenis_buku = input("Masukkan jenis buku baru (Novel/Komik): ").strip().capitalize()
+
+            if jenis_buku not in ['Novel', 'Komik']:
+                print("Jenis buku tidak valid. Silakan coba lagi.")
+                continue
+
+            buku[indeks] = {'kode': buku[indeks]['kode'], 'judul': judul, 'penulis': penulis, 'penerbit': penerbit, 'tahun': tahun, 'stok': stok, 'jenis': jenis_buku}
+            print("\nBuku berhasil diperbarui!")
 
         else:
             print("Indeks buku tidak valid.")
@@ -179,18 +185,18 @@ def daftar_buku():
         print("Tidak ada buku yang tersedia.")
         return
     
-    print(f"{'Indeks':<6}{'Kode':<6}{'Judul':<20}{'Penulis':<20}{'Penerbit':<20}{'Tahun':<6}{'Stok':<6}{'Jenis':<10}")
+    print(f"{'Indeks':<10}{'Kode':<10}{'Judul':<20}{'Penulis':<20}{'Penerbit':<20}{'Tahun':<6}{'Stok':<10}{'Jenis':<10}")
 
     for idx, item_buku in enumerate(buku, start=1):
 
         jenis_buku = item_buku.get('jenis', 'Tidak Diketahui')
 
-        print(f"{idx:<6}{item_buku['kode']:<6}{item_buku['judul']:<20}{item_buku['penulis']:<20}{item_buku['penerbit']:<20}{item_buku['tahun']:<6}{item_buku['stok']:<6}{jenis_buku:<10}")
+        print(f"{idx:<10}{item_buku['kode']:<10}{item_buku['judul']:<20}{item_buku['penulis']:<20}{item_buku['penerbit']:<20}{item_buku['tahun']:<6}{item_buku['stok']:<10}{jenis_buku:<10}")
 
     print()
 
 def pinjam_buku(username):
-    while (True):
+    while True:
         print("\n=== Pinjam Buku ===")
         daftar_buku()
 
@@ -233,7 +239,7 @@ def pinjam_buku(username):
             break
 
 def status_pinjaman(username):
-    while (True):
+    while True:
         print("\n=== Status Pinjaman ===")
 
         if username not in buku_dipinjam or not buku_dipinjam[username]:
@@ -249,7 +255,7 @@ def status_pinjaman(username):
             break
 
 def kembalikan_buku(username):
-    while (True):
+    while True:
         print("\n=== Kembalikan Buku ===")
         if username not in buku_dipinjam or not buku_dipinjam[username]:
             print("Tidak ada buku yang dipinjam.")
@@ -298,7 +304,7 @@ def kembalikan_buku(username):
                 print(f"Dipinjam pada tanggal: {record['tanggal_pinjam']}")
                 print(f"\nTotal = {hari_dipinjam} hari peminjaman = {biaya} x {record['jumlah']} = {total_biaya}")
                 
-                while (True):
+                while True:
                     try:
                         uang_dibayar = int(input("Masukkan jumlah uang untuk membayar: ").strip())
                     except ValueError:
@@ -319,7 +325,7 @@ def kembalikan_buku(username):
         if kembali == 'b':
             break
 
-while (True):
+while True:
     print("\n=== Selamat Datang Di Perpustakaan ABC ===")
     print("1. Buat Akun")
     print("2. Masuk")
@@ -333,7 +339,7 @@ while (True):
     elif pilihan == '2':
         pengguna_masuk = login()
         if pengguna_masuk:
-            while (True):
+            while True:
                 print("\n=== Menu Utama ===")
                 print("1. Tambah Buku (admin only)")
                 print("2. Hapus Buku (admin only)")
@@ -370,11 +376,11 @@ while (True):
                     kembalikan_buku(pengguna_masuk)
 
                 elif pilihan == '8':
-                    print("Anda sudah keluar. Terima Kasih!")
+                    print("\nAnda sudah keluar. Terima Kasih!")
                     break
                 
                 else:
-                    print("Pilihan tidak valid atau akses ditolak.")
+                    print("\nPilihan tidak valid atau akses ditolak.")
                     
     elif pilihan == '3':
         print("\nAnda berhasil keluar dari program. Terima Kasih!")
@@ -382,6 +388,3 @@ while (True):
     
     else:
         print("\nPilihan tidak valid. Silakan coba lagi.")
-
-
-
